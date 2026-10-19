@@ -8,6 +8,7 @@ __pycache__/
 # Documentos no versionados
 documento/
 imagenes/
+Memoria_Tecnica_Servidor*.docx
 
 # Dependencias
 node_modules/

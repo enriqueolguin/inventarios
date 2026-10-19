@@ -1,0 +1,302 @@
+/* ============================================
+   Gestor de Tareas — Estilos personalizados
+   Paleta: Teal/Esmeralda · Tipografía: Poppins + Nunito Sans
+   ============================================ */
+
+:root {
+    --brand-600: #0d9488;
+    --brand-700: #0f766e;
+    --brand-050: #ccfbf1;
+
+    --surface: #eef4f3;
+    --card-bg: #ffffff;
+    --text-strong: #0f172a;
+    --text-muted: #55657a;
+    --border-color: #d3dedb;
+
+    --radius: 0.75rem;
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, .06), 0 1px 3px rgba(15, 23, 42, .08);
+    --shadow-md: 0 4px 12px rgba(13, 148, 136, .12);
+}
+
+/* ----- Modo oscuro ----- */
+[data-bs-theme="dark"] {
+    --brand-050: #134e4a;
+
+    --surface: #0b1220;
+    --card-bg: #131c2b;
+    --text-strong: #e2e8f0;
+    --text-muted: #94a3b8;
+    --border-color: #243244;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, .5);
+}
+
+/* ----- Base ----- */
+body {
+    background-color: var(--surface);
+    color: var(--text-strong);
+    font-family: 'Nunito Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    transition: background-color .3s ease, color .3s ease;
+}
+
+h1, h2, h3, h4, h5, h6,
+.navbar-brand,
+.btn,
+.form-label,
+.page-link {
+    font-family: 'Poppins', 'Nunito Sans', system-ui, sans-serif;
+}
+
+/* ----- Navbar con degradado teal → cian ----- */
+.navbar-app {
+    background: linear-gradient(135deg, var(--brand-700) 0%, #0891b2 100%);
+    box-shadow: var(--shadow-md);
+}
+
+.navbar-app .navbar-brand {
+    font-weight: 700;
+    letter-spacing: -.02em;
+}
+
+/* ----- Botón para alternar tema ----- */
+.btn-theme {
+    --bs-btn-color: rgba(255, 255, 255, .85);
+    --bs-btn-border-color: rgba(255, 255, 255, .35);
+    --bs-btn-hover-bg: rgba(255, 255, 255, .15);
+    --bs-btn-hover-border-color: rgba(255, 255, 255, .5);
+    --bs-btn-active-bg: rgba(255, 255, 255, .25);
+    --bs-btn-active-border-color: rgba(255, 255, 255, .5);
+}
+
+/* ----- Tarjetas ----- */
+.card {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    transition: background-color .3s ease, border-color .3s ease;
+}
+
+.card-header,
+.card-footer {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+/* ----- Botones de marca ----- */
+.btn-brand {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--brand-600);
+    --bs-btn-border-color: var(--brand-600);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--brand-700);
+    --bs-btn-hover-border-color: var(--brand-700);
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--brand-700);
+    --bs-btn-active-border-color: var(--brand-700);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: var(--brand-600);
+    --bs-btn-disabled-border-color: var(--brand-600);
+}
+
+.btn-outline-brand {
+    --bs-btn-color: var(--brand-600);
+    --bs-btn-border-color: var(--brand-600);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--brand-600);
+    --bs-btn-hover-border-color: var(--brand-600);
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--brand-600);
+    --bs-btn-active-border-color: var(--brand-600);
+}
+
+[data-bs-theme="dark"] .btn-outline-brand {
+    --bs-btn-color: #5eead4;
+    --bs-btn-border-color: #14b8a6;
+    --bs-btn-hover-color: #042f2e;
+    --bs-btn-hover-bg: #2dd4bf;
+    --bs-btn-hover-border-color: #2dd4bf;
+}
+
+/* ----- Barra de filtros (tabs con contador) ----- */
+.filter-tabs {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+}
+
+.filter-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .45rem .95rem;
+    border-radius: 50rem;
+    border: 1.5px solid var(--border-color);
+    background-color: var(--card-bg);
+    color: var(--text-muted);
+    font-family: 'Poppins', sans-serif;
+    font-size: .85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all .18s ease;
+}
+
+.filter-tab:hover {
+    border-color: var(--brand-600);
+    color: var(--brand-700);
+    transform: translateY(-1px);
+}
+
+.filter-tab .count {
+    min-width: 1.5rem;
+    padding: 0 .4rem;
+    border-radius: 50rem;
+    background-color: var(--surface);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: .72rem;
+    line-height: 1.5;
+    text-align: center;
+}
+
+/* Estados activos con color por filtro */
+.filter-tab.active {
+    color: #fff;
+    border-color: transparent;
+}
+
+.filter-tab.active .count {
+    background-color: rgba(255, 255, 255, .22);
+    border-color: transparent;
+    color: #fff;
+}
+
+.filter-tab.active-all {
+    background: linear-gradient(135deg, var(--brand-600), var(--brand-700));
+}
+
+.filter-tab.active-pendiente {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.filter-tab.active-completada {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+/* ----- Tabla del listado ----- */
+.table {
+    --bs-table-bg: transparent;
+    color: var(--text-strong);
+}
+
+.table > :not(caption) > * > * {
+    border-color: var(--border-color);
+}
+
+.table thead th {
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: .72rem;
+    letter-spacing: .06em;
+    font-weight: 700;
+}
+
+/* ----- Badges de estado ----- */
+.badge-pendiente {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.badge-completada {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+[data-bs-theme="dark"] .badge-pendiente {
+    background-color: rgba(251, 191, 36, .15);
+    color: #fcd34d;
+}
+
+[data-bs-theme="dark"] .badge-completada {
+    background-color: rgba(52, 211, 153, .15);
+    color: #6ee7b7;
+}
+
+/* ----- Formularios ----- */
+.form-control,
+.form-select {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--text-strong);
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: var(--card-bg);
+    color: var(--text-strong);
+    border-color: var(--brand-600);
+    box-shadow: 0 0 0 .25rem rgba(13, 148, 136, .18);
+}
+
+.form-label {
+    font-weight: 600;
+    font-size: .875rem;
+    color: var(--text-strong);
+}
+
+/* ----- Paginación ----- */
+.pagination {
+    --bs-pagination-active-bg: var(--brand-600);
+    --bs-pagination-active-border-color: var(--brand-600);
+    --bs-pagination-color: var(--brand-600);
+    --bs-pagination-hover-color: var(--brand-700);
+    --bs-pagination-focus-box-shadow: 0 0 0 .25rem rgba(13, 148, 136, .18);
+    margin-bottom: 0;
+}
+
+/* ----- Estado vacío ----- */
+.empty-state i {
+    color: #99f6e4;
+    filter: drop-shadow(0 2px 4px rgba(13, 148, 136, .25));
+}
+
+[data-bs-theme="dark"] .empty-state i {
+    color: var(--brand-050);
+}
+
+/* ----- Detalle (show) ----- */
+.task-meta {
+    color: var(--text-muted);
+    font-size: .875rem;
+}
+
+/* ----- Login ----- */
+.login-logo {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    background: linear-gradient(135deg, var(--brand-600), #0891b2);
+    color: #fff;
+    font-size: 1.75rem;
+    box-shadow: var(--shadow-md);
+}
+
+.input-group-text {
+    background-color: var(--brand-050);
+    border-color: var(--border-color);
+    color: var(--brand-700);
+}
+
+[data-bs-theme="dark"] .input-group-text {
+    color: #5eead4;
+}
+
+.form-check-input:checked {
+    background-color: var(--brand-600);
+    border-color: var(--brand-600);
+}

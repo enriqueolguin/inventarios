@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Usuarios{% endblock %}
+
+{% block contenido %}
+<section class="tarjeta-seccion">
+  <div class="cabecera-seccion">
+    <h2>👥 Gestión de usuarios</h2>
+    <a href="{{ url_for('usuarios_crear') }}" class="btn btn-primario">➕ Nuevo usuario</a>
+  </div>
+
+  <div class="tabla-envoltura">
+    <table class="tabla-equipos">
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Username</th>
+          <th>Rol</th>
+          <th>Correo</th>
+          <th>Estado</th>
+          <th>Último acceso</th>
+          <th class="col-acciones">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in usuarios %}
+        <tr>
+          <td><strong>{{ u.nombre }}</strong></td>
+          <td>{{ u.username }}</td>
+          <td><span class="badge badge-rol-{{ u.rol_nombre|lower|replace(' ', '') }}">{{ u.rol_nombre }}</span></td>
+          <td>{{ u.email or '—' }}</td>
+          <td>
+            {% if u.activo %}
+              <span class="badge badge-bueno">Activo</span>
+            {% else %}
+              <span class="badge badge-baja">Inactivo</span>
+            {% endif %}
+          </td>
+          <td>{{ u.ultimo_acceso or 'Nunca' }}</td>
+          <td class="col-acciones">
+            <a href="{{ url_for('usuarios_editar', usuario_id=u.id) }}"
+               class="btn-accion btn-editar" title="Editar">✏️</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

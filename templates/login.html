@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Iniciar sesión{% endblock %}
+
+{% block contenido %}
+<div class="login-zona">
+  <div class="login-tarjeta">
+    <div class="logo-icono login-logo">🔐</div>
+    <h2>Bienvenido</h2>
+    <p class="login-subtitulo">Inicia sesión para acceder al inventario</p>
+
+    <form method="POST" class="form-login" novalidate>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="campo">
+        <label for="username">Usuario</label>
+        <input type="text" id="username" name="username" required
+               placeholder="Ej. admin" autocomplete="username" autofocus>
+      </div>
+
+      <div class="campo">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="password" required
+               placeholder="Tu contraseña" autocomplete="current-password">
+      </div>
+
+      <button type="submit" class="btn btn-primario btn-login">Entrar →</button>
+    </form>
+
+    <p class="login-nota">
+      ⚠️ Acceso exclusivo para usuarios registrados.<br>
+      Si no tienes cuenta, solicítala al administrador.
+    </p>
+  </div>
+</div>
+{% endblock %}

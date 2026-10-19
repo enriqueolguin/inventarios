@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Editar equipo' if modo == 'editar' else 'Registrar equipo' }}{% endblock %}
+
+{% block contenido %}
+<section class="tarjeta-seccion tarjeta-formulario">
+  <div class="cabecera-seccion">
+    <h2>
+      {{ '✏️ Editar equipo' if modo == 'editar' else '➕ Registrar equipo' }}
+    </h2>
+    <a href="{{ url_for('index') }}" class="btn btn-neutro">← Volver al inventario</a>
+  </div>
+
+  <form method="POST" class="form-equipos" novalidate>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="fila-form">
+      <div class="campo">
+        <label for="nombre_equipo">Nombre del equipo *</label>
+        <input type="text" id="nombre_equipo" name="nombre_equipo"
+               value="{{ equipo.nombre_equipo or '' }}" required
+               placeholder="Ej. PC-Oficina-01" maxlength="100">
+      </div>
+
+      <div class="campo">
+        <label for="numero_serie">Número de serie *</label>
+        <input type="text" id="numero_serie" name="numero_serie"
+               value="{{ equipo.numero_serie or '' }}" required
+               placeholder="Ej. DL7090X001" maxlength="60">
+      </div>
+    </div>
+
+    <div class="fila-form">
+      <div class="campo">
+        <label for="marca">Marca *</label>
+        <input type="text" id="marca" name="marca"
+               value="{{ equipo.marca or '' }}" required
+               placeholder="Ej. Dell, HP, Lenovo..." maxlength="60">
+      </div>
+      <div class="campo">
+        <label for="modelo">Modelo *</label>
+        <input type="text" id="modelo" name="modelo"
+               value="{{ equipo.modelo or '' }}" required
+               placeholder="Ej. OptiPlex 7090" maxlength="60">
+      </div>
+    </div>
+
+    <div class="fila-form">
+      <div class="campo">
+        <label for="tipo">Tipo de equipo *</label>
+        <select id="tipo" name="tipo" required>
+          <option value="" disabled {{ 'selected' if not equipo.tipo else '' }}>Selecciona...</option>
+          {% for t in ['Laptop', 'Desktop', 'Servidor', 'All-in-One', 'Tablet', 'Otro'] %}
+          <option value="{{ t }}" {{ 'selected' if equipo.tipo == t else '' }}>{{ t }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="campo">
+        <label for="procesador">Procesador *</label>
+        <input type="text" id="procesador" name="procesador"
+               value="{{ equipo.procesador or '' }}" required
+               placeholder="Ej. Intel Core i5-10500" maxlength="80">
+      </div>
+    </div>
+
+    <div class="fila-form">
+      <div class="campo">
+        <label for="ram_gb">RAM (GB) *</label>
+        <input type="number" id="ram_gb" name="ram_gb" min="1" max="1024"
+               value="{{ equipo.ram_gb or '' }}" required placeholder="Ej. 8">
+      </div>
+      <div class="campo">
+        <label for="almacenamiento">Almacenamiento</label>
+        <input type="text" id="almacenamiento" name="almacenamiento"
+               value="{{ equipo.almacenamiento or '' }}"
+               placeholder="Ej. SSD 512GB" maxlength="80">
+      </div>
+    </div>
+
+    <div class="fila-form">
+      <div class="campo">
+        <label for="sistema_operativo">Sistema operativo</label>
+        <input type="text" id="sistema_operativo" name="sistema_operativo"
+               value="{{ equipo.sistema_operativo or '' }}"
+               placeholder="Ej. Windows 11 Pro" maxlength="60">
+      </div>
+      <div class="campo">
+        <label for="estado">Estado *</label>
+        <select id="estado" name="estado" required>
+          {% for e in ['Nuevo', 'Bueno', 'Regular', 'En reparación', 'Dado de baja'] %}
+          <option value="{{ e }}" {{ 'selected' if equipo.estado == e else '' }}>{{ e }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="fila-form">
+      <div class="campo">
+        <label for="ubicacion">Ubicación *</label>
+        <input type="text" id="ubicacion" name="ubicacion"
+               value="{{ equipo.ubicacion or '' }}" required
+               placeholder="Ej. Oficina A - Piso 1" maxlength="100">
+      </div>
+      <div class="campo">
+        <label for="responsable">Responsable *</label>
+        <input type="text" id="responsable" name="responsable"
+               value="{{ equipo.responsable or '' }}" required
+               placeholder="Ej. Ana López" maxlength="100">
+      </div>
+    </div>
+
+    <div class="campo campo-completo">
+      <label for="observaciones">Observaciones</label>
+      <textarea id="observaciones" name="observaciones" rows="3"
+                placeholder="Notas adicionales del equipo...">{{ equipo.observaciones or '' }}</textarea>
+    </div>
+
+    <div class="acciones-form">
+      <a href="{{ url_for('index') }}" class="btn btn-neutro">Cancelar</a>
+      <button type="submit" class="btn btn-primario">
+        {{ '💾 Guardar cambios' if modo == 'editar' else '✅ Registrar equipo' }}
+      </button>
+    </div>
+  </form>
+</section>
+{% endblock %}

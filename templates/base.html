@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Registro de Equipos{% endblock %} | NeumoCRUD</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+  {% if current_user.is_authenticated %}
+  <header class="cabecera">
+    <div class="logo">
+      <div class="logo-icono">🖥️</div>
+      <div>
+        <h1>NeumoCRUD</h1>
+        <p>Inventario de equipos de cómputo</p>
+      </div>
+    </div>
+    <nav class="navegacion">
+      <a href="{{ url_for('index') }}" class="btn-nav {% if request.path == '/' %}activo{% endif %}">
+        📋 Inventario
+      </a>
+
+      {% if puede('equipos.crear') %}
+      <a href="{{ url_for('crear') }}" class="btn-nav {% if request.path == '/crear' %}activo{% endif %}">
+        ➕ Registrar equipo
+      </a>
+      {% endif %}
+
+      {% if puede('usuarios.gestionar') %}
+      <a href="{{ url_for('usuarios_lista') }}" class="btn-nav {% if request.path == '/usuarios' %}activo{% endif %}">
+        👥 Usuarios
+      </a>
+      {% endif %}
+
+      {% if puede('bitacora.ver') %}
+      <a href="{{ url_for('bitacora') }}" class="btn-nav {% if request.path == '/bitacora' %}activo{% endif %}">
+        📜 Bitácora
+      </a>
+      {% endif %}
+    </nav>
+
+    <div class="zona-usuario">
+      <div class="usuario-info">
+        <span class="usuario-nombre">{{ current_user.nombre }}</span>
+        <span class="usuario-rol">{{ current_user.rol_nombre }}</span>
+      </div>
+      <a href="{{ url_for('cambiar_password') }}" class="btn-accion" title="Cambiar mi contraseña">🔑</a>
+      <a href="{{ url_for('logout') }}" class="btn-accion" title="Cerrar sesión">🚪</a>
+    </div>
+  </header>
+  {% endif %}
+
+  {% with mensajes = get_flashed_messages(with_categories=true) %}
+    {% if mensajes %}
+      <div class="contenedor flash-zona">
+        {% for categoria, texto in mensajes %}
+          <div class="flash {{ 'flash-error' if categoria == 'error' else 'flash-exito' }}">
+            {{ texto }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <main class="contenedor">
+    {% block contenido %}{% endblock %}
+  </main>
+
+  <footer class="pie">
+    <p>NeumoCRUD · Flask + MySQL · Diseño neumorfismo</p>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

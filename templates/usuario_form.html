@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Editar usuario' if modo == 'editar' else 'Nuevo usuario' }}{% endblock %}
+
+{% block contenido %}
+<section class="tarjeta-seccion tarjeta-formulario">
+  <div class="cabecera-seccion">
+    <h2>
+      {{ '✏️ Editar usuario' if modo == 'editar' else '➕ Nuevo usuario' }}
+    </h2>
+    <a href="{{ url_for('usuarios_lista') }}" class="btn btn-neutro">← Volver a usuarios</a>
+  </div>
+
+  <form method="POST" class="form-equipos" novalidate>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="fila-form">
+      <div class="campo">
+        <label for="nombre">Nombre completo *</label>
+        <input type="text" id="nombre" name="nombre" required
+               value="{{ usuario.nombre or '' }}"
+               placeholder="Ej. Ana López" maxlength="100">
+      </div>
+      <div class="campo">
+        <label for="username">Username *</label>
+        <input type="text" id="username" name="username" required
+               value="{{ usuario.username or '' }}"
+               placeholder="Ej. alopez" maxlength="50"
+               {{ 'readonly' if modo == 'editar' else '' }}>
+      </div>
+    </div>
+
+    <div class="fila-form">
+      <div class="campo">
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email"
+               value="{{ usuario.email or '' }}"
+               placeholder="Ej. alopez@empresa.local">
+      </div>
+      <div class="campo">
+        <label for="rol_id">Rol *</label>
+        <select id="rol_id" name="rol_id" required>
+          <option value="" disabled {{ 'selected' if not usuario.rol_id else '' }}>Selecciona...</option>
+          {% for r in roles %}
+          <option value="{{ r.id }}" {{ 'selected' if usuario.rol_id == r.id else '' }}>
+            {{ r.nombre }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    {% if modo == 'crear' %}
+    <div class="fila-form">
+      <div class="campo">
+        <label for="password">Contraseña * (mín. 8 caracteres)</label>
+        <input type="password" id="password" name="password" required
+               placeholder="Mínimo 8 caracteres" minlength="8" autocomplete="new-password">
+      </div>
+    </div>
+    {% else %}
+    <div class="fila-form">
+      <div class="campo">
+        <label for="password">Nueva contraseña (opcional)</label>
+        <input type="password" id="password" name="password"
+               placeholder="Dejar vacío para no cambiar" minlength="8"
+               autocomplete="new-password">
+      </div>
+      <div class="campo">
+        <label for="activo">Estado de la cuenta</label>
+        <label class="interruptor">
+          <input type="checkbox" id="activo" name="activo"
+                 {{ 'checked' if usuario.activo else '' }}>
+          <span>Cuenta activa</span>
+        </label>
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="acciones-form">
+      <a href="{{ url_for('usuarios_lista') }}" class="btn btn-neutro">Cancelar</a>
+      <button type="submit" class="btn btn-primario">
+        {{ '💾 Guardar cambios' if modo == 'editar' else '✅ Crear usuario' }}
+      </button>
+    </div>
+  </form>
+</section>
+{% endblock %}

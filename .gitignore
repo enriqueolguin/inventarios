@@ -1,0 +1,19 @@
+# Entorno
+.env
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Dependencias
+node_modules/
+
+# Sistema
+.DS_Store
+
+# Contenido de docx descomprimido (temporal)
+docxcheck/
+
+# PHP local y composer
+project_laravel/php83/
+project_laravel/composer.phar

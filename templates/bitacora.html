@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Bitácora{% endblock %}
+
+{% block contenido %}
+<section class="tarjeta-seccion">
+  <div class="cabecera-seccion">
+    <h2>📜 Bitácora de movimientos</h2>
+    <span class="contador-equipos">{{ registros|length }} registro(s) recientes</span>
+  </div>
+
+  <div class="tabla-envoltura">
+    <table class="tabla-equipos">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Usuario</th>
+          <th>Acción</th>
+          <th>Detalle</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in registros %}
+        <tr>
+          <td class="celda-fecha">{{ r.fecha }}</td>
+          <td><strong>{{ r.username }}</strong></td>
+          <td>
+            {% set iconos = {
+              'inicio_sesion': '🔓',
+              'cierre_sesion': '🔒',
+              'crear_equipo': '➕',
+              'editar_equipo': '✏️',
+              'eliminar_equipo': '🗑️',
+              'exportar_csv': '📥',
+              'crear_usuario': '👤',
+              'editar_usuario': '🛠️',
+              'cambio_password': '🔑',
+              'sistema': '⚙️'
+            } %}
+            <span class="badge">{{ iconos.get(r.accion, '•') }} {{ r.accion }}</span>
+          </td>
+          <td>{{ r.detalle or '—' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

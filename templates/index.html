@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Inventario{% endblock %}
+
+{% block contenido %}
+<section class="tarjeta-seccion">
+  <div class="cabecera-seccion">
+    <h2>📋 Inventario de equipos</h2>
+    <div class="acciones-seccion">
+      {% if puede('reportes.exportar') %}
+      <a href="{{ url_for('exportar') }}" class="btn btn-neutro" title="Descargar CSV">📥 Exportar</a>
+      {% endif %}
+      {% if puede('equipos.crear') %}
+      <a href="{{ url_for('crear') }}" class="btn btn-primario">➕ Registrar equipo</a>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if equipos %}
+  <div class="buscador-zona">
+    <input type="text" id="buscador" class="campo entrada-buscador"
+           placeholder="🔍 Buscar por nombre, marca, serie, responsable...">
+    <span class="contador-equipos">{{ equipos|length }} equipo(s)</span>
+  </div>
+
+  <div class="tabla-envoltura">
+    <table class="tabla-equipos">
+      <thead>
+        <tr>
+          <th>Equipo</th>
+          <th>Tipo</th>
+          <th>Procesador</th>
+          <th>RAM</th>
+          <th>Estado</th>
+          <th>Ubicación</th>
+          <th>Responsable</th>
+          {% if puede('equipos.editar') or puede('equipos.eliminar') %}
+          <th class="col-acciones">Acciones</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody id="cuerpo-tabla">
+        {% for equipo in equipos %}
+        <tr>
+          <td>
+            <div class="celda-equipo">
+              <span class="icono-tipo">{{ equipo.tipo|tipos }}</span>
+              <div>
+                <strong>{{ equipo.nombre_equipo }}</strong>
+                <small>{{ equipo.marca }} {{ equipo.modelo }}</small>
+              </div>
+            </div>
+          </td>
+          <td>{{ equipo.tipo }}</td>
+          <td>{{ equipo.procesador }}</td>
+          <td>{{ equipo.ram_gb }} GB</td>
+          <td><span class="badge {{ equipo.estado|badges }}">{{ equipo.estado }}</span></td>
+          <td>{{ equipo.ubicacion }}</td>
+          <td>{{ equipo.responsable }}</td>
+          {% if puede('equipos.editar') or puede('equipos.eliminar') %}
+          <td class="col-acciones">
+            <div class="grupo-acciones">
+              {% if puede('equipos.editar') %}
+              <a href="{{ url_for('editar', equipo_id=equipo.id) }}"
+                 class="btn-accion btn-editar" title="Editar">✏️</a>
+              {% endif %}
+              {% if puede('equipos.eliminar') %}
+              <form action="{{ url_for('eliminar', equipo_id=equipo.id) }}" method="POST"
+                    class="form-eliminar" data-nombre="{{ equipo.nombre_equipo }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn-accion btn-eliminar" title="Eliminar">🗑️</button>
+              </form>
+              {% endif %}
+            </div>
+          </td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div id="sin-resultados" class="vacio" hidden>
+    <p>🤷 No se encontraron equipos con ese criterio.</p>
+  </div>
+  {% else %}
+  <div class="vacio">
+    <div class="vacio-icono">🗃️</div>
+    <h3>No hay equipos registrados</h3>
+    {% if puede('equipos.crear') %}
+    <p>Comienza agregando el primer equipo al inventario.</p>
+    <a href="{{ url_for('crear') }}" class="btn btn-primario">➕ Registrar el primer equipo</a>
+    {% else %}
+    <p>Aún no existen equipos en el inventario.</p>
+    {% endif %}
+  </div>
+  {% endif %}
+</section>
+
+<!-- Modal de confirmación para eliminar -->
+<div class="modal-fondo" id="modalEliminar" hidden>
+  <div class="modal">
+    <div class="modal-icono">⚠️</div>
+    <h3>¿Eliminar equipo?</h3>
+    <p>Estás a punto de eliminar <strong id="modalNombreEquipo"></strong>.
+       Esta acción no se puede deshacer.</p>
+    <div class="modal-acciones">
+      <button type="button" class="btn btn-neutro" id="btnCancelarEliminar">Cancelar</button>
+      <button type="button" class="btn btn-peligro" id="btnConfirmarEliminar">Sí, eliminar</button>
+    </div>
+  </div>
+</div>
+{% endblock %}

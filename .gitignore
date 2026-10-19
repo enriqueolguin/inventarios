@@ -5,6 +5,10 @@ venv/
 __pycache__/
 *.pyc
 
+# Documentos no versionados
+documento/
+imagenes/
+
 # Dependencias
 node_modules/
 
